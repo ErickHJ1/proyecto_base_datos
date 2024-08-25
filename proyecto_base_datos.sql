@@ -24,3 +24,16 @@ INSERT INTO Usuarios (Nombre,Apellido,Email,Clave,Tipo_usuario) VALUES
 SELECT * FROM Usuarios;
 
 
+CREATE TABLE Cuenta(
+    CuentaID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    Telefono VARCHAR(250),
+    Direccion VARCHAR(250),
+    Pais VARCHAR(250)
+);
+
+INSERT INTO Cuenta(Telefono,Direccion,Pais) VALUES
+("+506-6059-7129","20mts oeste de walmart de san jose centro","Costa Rica"),
+("+506-7055-8528","100mts norte del centro comercial multi centro en desamparados","Costa Rica"),
+("+506-8039-3127","80mts oeste del centro comercial san pedro cerca de la oficina de correos","Costa Rica");
+
+SELECT * FROM Cuenta;

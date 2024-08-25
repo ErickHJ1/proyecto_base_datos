@@ -37,3 +37,18 @@ INSERT INTO Cuenta(Telefono,Direccion,Pais) VALUES
 ("+506-8039-3127","80mts oeste del centro comercial san pedro cerca de la oficina de correos","Costa Rica");
 
 SELECT * FROM Cuenta;
+
+CREATE TABLE Hoteles(
+    HotelID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    Nombre VARCHAR(250),
+    Direccion VARCHAR(250),
+    Ciudad VARCHAR(250),
+    Telefono VARCHAR(250)
+);
+
+INSERT INTO Hoteles(Nombre,Direccion,Ciudad,Telefono) VALUES
+("Hotel Canarias","20mts oeste de parque de la paz","San jose","+506-3159-7129"),
+("Hotel Escalante","Ubicado en el centro comercial multiflores","Heredia","+506-4255-8528"),
+("Hotel san martin","Ubicados en el centro comercial plaza real","Alajuela","+506-8539-3127");
+
+SELECT * FROM Hoteles;

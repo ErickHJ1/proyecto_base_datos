@@ -3,7 +3,7 @@ CREATE DATABASE
     DEFAULT CHARACTER SET = 'utf8mb4';
     -- Crear la tabla Transaccion
 CREATE TABLE Transaccion (
-    Numero_transaccion INT PRIMARY KEY,
+    Numero_transaccion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Fecha DATETIME NOT NULL,
     Metodo_Pago VARCHAR(50) NOT NULL,
     Coste INT NOT NULL
@@ -11,7 +11,7 @@ CREATE TABLE Transaccion (
 
 -- Crear la tabla Reservas
 CREATE TABLE Reservas (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Reserva_id INT PRIMARY KEY AUTO_INCREMENT,
     Llegada DATE NOT NULL,
     Salida DATE NOT NULL,
     Numero_huespedes INT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE Reservas (
 
 -- Crear la tabla Habitaciones
 CREATE TABLE Habitaciones (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
+    ID_Habiitacion INT PRIMARY KEY AUTO_INCREMENT,
     Precio DECIMAL(10, 2) NOT NULL,
     Capacidad INT NOT NULL,
     Disponibilidad BOOLEAN NOT NULL

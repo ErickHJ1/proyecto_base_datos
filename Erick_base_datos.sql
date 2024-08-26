@@ -50,7 +50,9 @@ VALUES
 ('2024-08-26', '2024-08-27', 3, 3);
 
 CREATE View Nuevas_reservas AS
-SELECT Precio,Capacidad,Disponibilidad FROM Habitaciones
-WHERE Precio = 90.00
+SELECT Llegada, Salida, Numero_huespedes, Numero_transaccion FROM Reservas
+WHERE DATE(Llegada) = CURRENT_DATE   
 
 SELECT * FROM Nuevas_reservas;
+
+DROP VIEW Nuevas_reservas

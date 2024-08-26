@@ -34,26 +34,29 @@ CREATE TABLE Habitaciones (
     ID_Habitacion INT PRIMARY KEY AUTO_INCREMENT,
     Precio DECIMAL(10, 2) NOT NULL,
     Capacidad INT NOT NULL,
-    Disponibilidad BOOLEAN NOT NULL
-@@ -43,14 +47,8 @@ VALUES
+    Disponibilidad BOOLEAN NOT NULL);
+
+-- Insertar datos en la tabla Reservas
+INSERT INTO Transaccion (Numero_transaccion, Fecha, Metodo_Pago, Coste)
+VALUES 
+(1, '2024-08-23 14:30:00', 'Tarjeta de Crédito', 150),
+(2, '2024-08-24 09:15:00', 'Transferencia Bancaria', 200),
+(3, '2024-08-24 16:45:00', 'Efectivo', 100);
+
+-- Insertar datos en la tabla Habitaciones
+INSERT INTO Habitaciones (Precio, Capacidad, Disponibilidad)
+VALUES 
+(75.00, 2, TRUE),
+(120.00, 4, TRUE),
 (90.00, 3, FALSE);
 
 -- Insertar datos en la tabla Reservas
 INSERT INTO Reservas (Llegada, Salida, Numero_huespedes, Numero_transaccion)
-INSERT INTO Reservas (Llegada, Salida, Numero_huespedes,UsuarioID,ID_Habitacion)
 VALUES 
 ('2024-08-24', '2024-08-26', 2, 1),
-('2024-08-25', '2024-08-30', 4, 2),
-('2024-08-26', '2024-08-27', 3, 3);
+('2024-08-26', '2024-08-30', 4, 2),
+('2024-08-30', '2024-09-02', 3, 3);
 
-CREATE View [Nuevas_reservas] AS
-SELECT Precio,Capacidad,Disponibilidad FROM Habitaciones
-WHERE Precio = 90.00
-
-SELECT * FROM [Nuevas_reservas];
-('2024-08-24', '2024-08-26', 2,3,1),
-('2024-08-25', '2024-08-30', 4,2,2),
-('2024-08-26', '2024-08-27', 3,1,3);
 CREATE View Nuevas_reservas AS
 SELECT Llegada, Salida, Numero_huespedes, Numero_transaccion FROM Reservas
 WHERE DATE(Llegada) = CURRENT_DATE;   

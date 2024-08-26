@@ -49,8 +49,8 @@ VALUES
 ('2024-08-25', '2024-08-30', 4, 2),
 ('2024-08-26', '2024-08-27', 3, 3);
 
-CREATE View [Nuevas_reservas] AS
+CREATE View Nuevas_reservas AS
 SELECT Precio,Capacidad,Disponibilidad FROM Habitaciones
 WHERE Precio = 90.00
 
-SELECT * FROM [Nuevas_reservas];
+SELECT * FROM Nuevas_reservas;

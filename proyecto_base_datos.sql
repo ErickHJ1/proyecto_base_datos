@@ -52,3 +52,22 @@ INSERT INTO Hoteles(Nombre,Direccion,Ciudad,Telefono) VALUES
 ("Hotel san martin","Ubicados en el centro comercial plaza real","Alajuela","+506-8539-3127");
 
 SELECT * FROM Hoteles;
+
+
+
+--Solicitar una reserva
+
+DELIMITER //
+CREATE PROCEDURE SolicitarReserva(
+    IN HabitacionID INT,
+    IN MyUsuarioID INT,
+    IN FechaLlegada DATE,
+    IN FechaSalida DATE
+)
+BEGIN
+    INSERT INTO Reservacion(ID_Habitacion,UsuarioID,Llegada,Salida)
+    VALUES (HabitacionID,MyUsuarioID,FechaLlegada,FechaSalida);
+END //
+DELIMITER;
+
+CALL SolicitarReserva()

@@ -17,7 +17,12 @@ CREATE TABLE Reservas (
     Salida DATE NOT NULL,
     Numero_huespedes INT NOT NULL,
     Numero_transaccion INT,
-    FOREIGN KEY (Numero_transaccion) REFERENCES Transaccion(Numero_transaccion)
+    Estado BOOLEAN DEFAULT 0,
+    UsuarioID INT,
+    ID_Habitacion INT,
+    FOREIGN KEY (Numero_transaccion) REFERENCES Transaccion(Numero_transaccion),
+    FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
+    FOREIGN KEY (ID_Habitacion) REFERENCES Habitaciones(ID_Habitacion)
 );
 
 -- Crear la tabla Habitaciones
@@ -56,3 +61,12 @@ SELECT * FROM Nuevas_reservas;
 DROP VIEW Nuevas_reservas;
 DROP TABLE reservas
 
+DELIMITER //
+CREATE TRIGGER actualizar_reserva
+AFTER INSERT ON SolicitarReserva
+
+FOR EACH ROW
+BEGIN
+UPDATE reservas SET estado = 1
+
+END; //

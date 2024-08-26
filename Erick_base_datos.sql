@@ -46,13 +46,13 @@ VALUES
 INSERT INTO Reservas (Llegada, Salida, Numero_huespedes, Numero_transaccion)
 VALUES 
 ('2024-08-24', '2024-08-26', 2, 1),
-('2024-08-25', '2024-08-30', 4, 2),
-('2024-08-26', '2024-08-27', 3, 3);
+('2024-08-26', '2024-08-30', 4, 2),
+('2024-08-30', '2024-09-02', 3, 3);
 
 CREATE View Nuevas_reservas AS
 SELECT Llegada, Salida, Numero_huespedes, Numero_transaccion FROM Reservas
-WHERE DATE(Llegada) = CURRENT_DATE   
-
+WHERE DATE(Llegada) = CURRENT_DATE;   
 SELECT * FROM Nuevas_reservas;
+DROP VIEW Nuevas_reservas;
+DROP TABLE reservas
 
-DROP VIEW Nuevas_reservas

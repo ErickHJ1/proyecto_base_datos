@@ -1,8 +1,7 @@
 
 CREATE DATABASE Reservas
-    DEFAULT CHARACTER SET = 'utf8mb4';
-    USE pagina_hotel;
-    USE proyecto_base_datos;
+DEFAULT CHARACTER SET = 'utf8mb4';
+USE proyecto_base_datos;
     -- Crear la tabla Transaccion
 CREATE TABLE Transaccion (
     Numero_transaccion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -18,8 +17,6 @@ CREATE TABLE Reservas (
     Salida DATE NOT NULL,
     Numero_huespedes INT NOT NULL,
     Numero_transaccion INT,
-    FOREIGN KEY (Numero_transaccion) REFERENCES Transaccion(Numero_transaccion)
-    Numero_transaccion DEFAULT 10,
     Estado BOOLEAN DEFAULT 0,
     UsuarioID INT,
     ID_Habitacion INT,
@@ -30,7 +27,6 @@ CREATE TABLE Reservas (
 
 -- Crear la tabla Habitaciones
 CREATE TABLE Habitaciones (
-    ID_Habiitacion INT PRIMARY KEY AUTO_INCREMENT,
     ID_Habitacion INT PRIMARY KEY AUTO_INCREMENT,
     Precio DECIMAL(10, 2) NOT NULL,
     Capacidad INT NOT NULL,
@@ -51,11 +47,11 @@ VALUES
 (90.00, 3, FALSE);
 
 -- Insertar datos en la tabla Reservas
-INSERT INTO Reservas (Llegada, Salida, Numero_huespedes, Numero_transaccion)
+INSERT INTO Reservas (Llegada, Salida, Numero_huespedes,UsuarioID,ID_Habitacion)
 VALUES 
-('2024-08-24', '2024-08-26', 2, 1),
-('2024-08-26', '2024-08-30', 4, 2),
-('2024-08-30', '2024-09-02', 3, 3);
+('2024-08-24', '2024-08-26', 2,3,1),
+('2024-08-25', '2024-08-30', 4,2,2),
+('2024-08-26', '2024-08-27', 3,1,3);
 
 CREATE View Nuevas_reservas AS
 SELECT Llegada, Salida, Numero_huespedes, Numero_transaccion FROM Reservas
@@ -64,12 +60,13 @@ SELECT * FROM Nuevas_reservas;
 DROP VIEW Nuevas_reservas;
 DROP TABLE reservas
 
+
+
 DELIMITER //
 CREATE TRIGGER actualizar_reserva
-AFTER INSERT ON SolicitarReserva
-
+BEFORE INSERT ON Reservas
 FOR EACH ROW
 BEGIN
-UPDATE reservas SET estado = 1
-
+    SET NEW.estado = 1;
 END; //
+

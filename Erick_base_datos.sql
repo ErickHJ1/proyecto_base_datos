@@ -2,6 +2,7 @@
 CREATE DATABASE Reservas
     DEFAULT CHARACTER SET = 'utf8mb4';
     USE pagina_hotel;
+    USE proyecto_base_datos;
     -- Crear la tabla Transaccion
 CREATE TABLE Transaccion (
     Numero_transaccion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -9,6 +10,7 @@ CREATE TABLE Transaccion (
     Metodo_Pago VARCHAR(50) NOT NULL,
     Coste INT NOT NULL
 );
+
 -- Crear la tabla Reservas
 CREATE TABLE Reservas (
     Reserva_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -29,6 +31,7 @@ CREATE TABLE Reservas (
 -- Crear la tabla Habitaciones
 CREATE TABLE Habitaciones (
     ID_Habiitacion INT PRIMARY KEY AUTO_INCREMENT,
+    ID_Habitacion INT PRIMARY KEY AUTO_INCREMENT,
     Precio DECIMAL(10, 2) NOT NULL,
     Capacidad INT NOT NULL,
     Disponibilidad BOOLEAN NOT NULL
@@ -37,13 +40,33 @@ CREATE TABLE Habitaciones (
 
 -- Insertar datos en la tabla Reservas
 INSERT INTO Reservas (Llegada, Salida, Numero_huespedes, Numero_transaccion)
+INSERT INTO Reservas (Llegada, Salida, Numero_huespedes,UsuarioID,ID_Habitacion)
 VALUES 
 ('2024-08-24', '2024-08-26', 2, 1),
-('2024-08-26', '2024-08-30', 4, 2),
-('2024-08-30', '2024-09-02', 3, 3);
+('2024-08-25', '2024-08-30', 4, 2),
+('2024-08-26', '2024-08-27', 3, 3);
 
 CREATE View [Nuevas_reservas] AS
 SELECT Precio,Capacidad,Disponibilidad FROM Habitaciones
 WHERE Precio = 90.00
 
 SELECT * FROM [Nuevas_reservas];
+('2024-08-24', '2024-08-26', 2,3,1),
+('2024-08-25', '2024-08-30', 4,2,2),
+('2024-08-26', '2024-08-27', 3,1,3);
+CREATE View Nuevas_reservas AS
+SELECT Llegada, Salida, Numero_huespedes, Numero_transaccion FROM Reservas
+WHERE DATE(Llegada) = CURRENT_DATE;   
+SELECT * FROM Nuevas_reservas;
+DROP VIEW Nuevas_reservas;
+DROP TABLE reservas
+
+DELIMITER //
+CREATE TRIGGER actualizar_reserva
+AFTER INSERT ON SolicitarReserva
+
+FOR EACH ROW
+BEGIN
+UPDATE reservas SET estado = 1
+
+END; //

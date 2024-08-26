@@ -53,4 +53,4 @@ CREATE View [Nuevas_reservas] AS
 SELECT Precio,Capacidad,Disponibilidad FROM Habitaciones
 WHERE Precio = 90.00
 
-SELECT * FROM [Nuevas_reservas]
+SELECT * FROM [Nuevas_reservas];

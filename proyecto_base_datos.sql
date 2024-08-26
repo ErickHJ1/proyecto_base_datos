@@ -61,13 +61,14 @@ DELIMITER //
 CREATE PROCEDURE SolicitarReserva(
     IN HabitacionID INT,
     IN MyUsuarioID INT,
+    IN MyNumero_huespedes INT,
     IN FechaLlegada DATE,
     IN FechaSalida DATE
 )
 BEGIN
-    INSERT INTO Reservacion(ID_Habitacion,UsuarioID,Llegada,Salida)
-    VALUES (HabitacionID,MyUsuarioID,FechaLlegada,FechaSalida);
+    INSERT INTO Reservas(ID_Habitacion,UsuarioID,Numero_huespedes,Llegada,Salida)
+    VALUES (HabitacionID,MyUsuarioID,MyNumero_huespedes,FechaLlegada,FechaSalida);
 END //
 DELIMITER;
 
-CALL SolicitarReserva()
+CALL SolicitarReserva(1,1,4,"2021-12-5","2021-12-10")

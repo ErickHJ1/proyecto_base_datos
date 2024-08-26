@@ -71,3 +71,7 @@ END //
 DELIMITER;
 
 CALL SolicitarReserva()
+
+CREATE INDEX hoteName on Hoteles(Nombre);
+
+SHOW INDEX FROM hoteles 

@@ -49,6 +49,14 @@ VALUES
 -- Insertar datos en la tabla Reservas
 INSERT INTO Reservas (Llegada, Salida, Numero_huespedes,UsuarioID,ID_Habitacion)
 VALUES 
-('2024-08-24', '2024-08-26', 2,3,1),
-('2024-08-25', '2024-08-30', 4,2,2),
-('2024-08-26', '2024-08-27', 3,1,3);
+('2024-08-24', '2024-08-26', 2, 1),
+('2024-08-26', '2024-08-30', 4, 2),
+('2024-08-30', '2024-09-02', 3, 3);
+
+CREATE View Nuevas_reservas AS
+SELECT Llegada, Salida, Numero_huespedes, Numero_transaccion FROM Reservas
+WHERE DATE(Llegada) = CURRENT_DATE;   
+SELECT * FROM Nuevas_reservas;
+DROP VIEW Nuevas_reservas;
+DROP TABLE reservas
+

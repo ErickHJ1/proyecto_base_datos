@@ -78,3 +78,4 @@ CALL SolicitarReserva(1,1,4,"2021-12-5","2021-12-10")
 CREATE INDEX hoteName on Hoteles(Nombre);
 
 SHOW INDEX FROM hoteles;
+SHOW INDEX FROM hoteles;

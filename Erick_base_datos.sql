@@ -1,7 +1,7 @@
 
 CREATE DATABASE Reservas
 DEFAULT CHARACTER SET = 'utf8mb4';
-USE proyecto_base_datos;
+USE pagina_hotel;
     -- Crear la tabla Transaccion
 CREATE TABLE Transaccion (
     Numero_transaccion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -69,4 +69,6 @@ FOR EACH ROW
 BEGIN
     SET NEW.estado = 1;
 END; //
-
+DROP TABLE reservas;
+DROP Table habitaciones;
+DROP Table transaccion

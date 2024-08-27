@@ -141,7 +141,9 @@ BEGIN
 END //
 DELIMITER;
 
-CALL SolicitarReserva(1,1,4,"2024-08-27","2024-09-10")
+CALL SolicitarReserva(1,1,6,"2024-08-27","2024-09-10")
+
+SELECT * FROM reservas
 
 --Cancelar una Reserva
 ------------
@@ -168,6 +170,20 @@ WHERE DATE(Llegada) = CURRENT_DATE;
 SELECT * FROM nuevas_reservas;
 
 ---------------------------------------------------------------------------------------------------------
+
+--6)Trigger:
+
+DELIMITER //
+CREATE TRIGGER actualizar_reserva
+BEFORE INSERT ON Reservas
+FOR EACH ROW
+BEGIN
+    SET NEW.estado = 1;
+END; //
+DELIMITER //
+DROP Trigger actualizar_reserva;
+
+-------------------------------------------------------------------------------------------------------
 
 --7)Indices
 CREATE INDEX Nombres on Hoteles(Nombre);

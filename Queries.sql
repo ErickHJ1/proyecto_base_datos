@@ -1,5 +1,16 @@
 ---Querys 
+--1
 
+SELECT  Nombre,COUNT(`Reservas`.Reserva_id) AS cant_Reservas
+FROM Hoteles INNER JOIN Habitaciones ON `Hoteles`.HotelID = `Habitaciones`.ID_Habitacion
+INNER JOIN Reservas ON `Habitaciones`.ID_Habitacion = `Reservas`.ID_Habitacion 
+WHERE Disponibilidad = 0 GROUP BY HotelID;
+
+SELECT * FROM reservas;
+SELECT  Nombre,COUNT(`Habitaciones`.disponibilidad) AS cant_habitaciones
+FROM Hoteles INNER JOIN Habitaciones ON `Hoteles`.HotelID = `Habitaciones`.ID_Habitacion
+INNER JOIN Reservas ON `Habitaciones`.ID_Habitacion = `Reservas`.ID_Habitacion 
+WHERE Disponibilidad = TRUE AND Reservas.Salida < "2024-12-31" GROUP BY HotelID;
 --2
 SELECT  Nombre,COUNT(`Habitaciones`.disponibilidad) AS cant_habitaciones
 FROM Hoteles INNER JOIN Habitaciones ON `Hoteles`.HotelID = `Habitaciones`.ID_Habitacion

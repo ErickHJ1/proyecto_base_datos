@@ -32,6 +32,8 @@ CREATE TABLE Cuenta(
     Pais VARCHAR(250)
 );
 
+
+
 INSERT INTO Cuenta(Telefono,Direccion,Pais) VALUES
 ("+506-6059-7129","20mts oeste de walmart de san jose centro","Costa Rica"),
 ("+506-7055-8528","100mts norte del centro comercial multi centro en desamparados","Costa Rica"),
@@ -58,7 +60,7 @@ SELECT * FROM Hoteles;
 
 ---------------------------------------------------------------------------------------------------------------
 
-    -- Crear la tabla Transaccion
+-- Crear la tabla Transaccion
 CREATE TABLE Transaccion (
     Numero_transaccion INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     Fecha DATETIME NOT NULL,
@@ -94,7 +96,7 @@ CREATE TABLE Reservas (
 -- Insertar datos en la tabla Reservas
 INSERT INTO Reservas (Llegada, Salida, Numero_huespedes,UsuarioID,ID_Habitacion)
 VALUES 
-('2024-08-24', '2024-08-26', 2,3,1),
+('2024-08-24', '2024-08-26', 1,3,1),
 ('2024-08-25', '2024-08-30', 4,2,2),
 ('2024-08-26', '2024-08-27', 3,1,3);
 
@@ -141,7 +143,7 @@ BEGIN
 END //
 DELIMITER;
 
-CALL SolicitarReserva(1,1,6,"2024-08-27","2024-09-10")
+CALL SolicitarReserva(1,4,6,"2024-08-27","2024-09-10")
 
 SELECT * FROM reservas
 
@@ -150,14 +152,15 @@ SELECT * FROM reservas
 
 DELIMITER //
 CREATE PROCEDURE CancelarReserva(
-    IN MyUsuarioID INT
+    IN MyUsuarioID INT,
+    In MyHabitacionID INT
 )
 BEGIN
-    DELETE FROM Reservas WHERE UsuarioID = MyUsuarioID;
+    DELETE FROM Reservas WHERE ID_Habitacion = MyHabitacionID AND UsuarioID = MyUsuarioID;
 END //
 DELIMITER;
 ------
-CALL `CancelarReserva`(1)
+CALL `CancelarReserva`(3,1)
 
 SELECT * FROM reservas;
 
@@ -204,3 +207,4 @@ SELECT * FROM hoteles WHERE `Ciudad` LIKE "A%";
 
 --E)Consulta para buscar hoteles cuya ubicación termina con un texto específico.
 SELECT * FROM hoteles WHERE `Ciudad` LIKE "%E";
+

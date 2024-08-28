@@ -143,7 +143,7 @@ BEGIN
 END //
 DELIMITER;
 
-CALL SolicitarReserva(1,4,6,"2024-08-27","2024-09-10")
+CALL SolicitarReserva(1,3,6,"2024-08-27","2024-09-10")
 
 SELECT * FROM reservas
 
@@ -198,6 +198,7 @@ SHOW INDEX FROM hoteles;
 
 --8)Consultas SQL (Queries):
 ----------------
+
 
 --C)Consulta para buscar hoteles por nombre.
 SELECT Nombre FROM hoteles ;

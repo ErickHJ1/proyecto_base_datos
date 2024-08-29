@@ -49,7 +49,7 @@ VALUES
 -- Insertar datos en la tabla Reservas
 INSERT INTO Reservas (Llegada, Salida, Numero_huespedes,UsuarioID,ID_Habitacion)
 VALUES 
-('2024-08-24', '2024-08-26', 2,3,1),
+('2024-07-24', '2024-08-26', 2,3,1),
 ('2024-08-25', '2024-08-30', 4,2,2),
 ('2024-08-26', '2024-08-27', 3,1,3);
 

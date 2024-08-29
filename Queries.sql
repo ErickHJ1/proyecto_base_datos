@@ -1,4 +1,6 @@
 ---Querys 
+--1
+
 --3
 SELECT Nombre FROM hoteles ;
 --4

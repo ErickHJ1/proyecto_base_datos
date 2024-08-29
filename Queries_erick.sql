@@ -39,7 +39,7 @@ FROM (
 SELECT r.*
 FROM Reservas r
 JOIN Usuarios u ON r.UsuarioID = u.UsuarioID
-WHERE u.Email = "erick@correo.com"
+WHERE u.Email = "keylor@correo.com"
   AND MONTH(r.Llegada) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
   AND YEAR(r.Llegada) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH);
 

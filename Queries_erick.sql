@@ -36,12 +36,6 @@ FROM (
 ) AS subquery;
 
 
-SELECT R.Reserva_id, R.Llegada, R.Salida, R.Numero_huespedes, R.Numero_transaccion, R.Estado, R.UsuarioID, R.ID_Habitacion
-FROM Reservas R
-JOIN Usuarios U ON R.UsuarioID = U.UsuarioID
-WHERE  = 'cliente@example.com'
-AND R.Llegada BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE();
-
 SELECT r.*
 FROM Reservas r
 JOIN Usuarios u ON r.UsuarioID = u.UsuarioID

@@ -10,7 +10,7 @@ CREATE TABLE Usuarios(
     Clave VARCHAR(250),
     Tipo_usuario ENUM("Cliente","Administrador")
 );
---UsuarioID tiene un INT tipo de dato de numeros, AUTO_INCREMENT que hara que los numeros vayan.
+--UsuarioID tiene un INT tipo de dato de numeros, AUTO_INCREMENT que hara que los numeros vayan
 --aunmentando despues del numero anterior, que sea una llave primaria y que no sea vacia.
 --Nombre,Apellido,Email y Clave son de tipo VARCHAR que nos permite colocar letras,numeros y simbolos.
 --Email tiene un UNIQUE que es una restriccion que asegura que las columnas tengan un valor unico.
@@ -32,6 +32,10 @@ CREATE TABLE Cuenta(
     Pais VARCHAR(250)
 );
 
+--La tabla cuenta:
+--CuentaID tiene un INT tipo de dato de numeros, AUTO_INCREMENT que hara que los numeros vayan
+--aumentando despues del numero anterior, que sea una llave primaria y que no sea vacia.
+--Telefono,Direccion y Pais son tipo VARCHAR que nos permite colocar letras,numeros y simbolos.
 
 
 INSERT INTO Cuenta(Telefono,Direccion,Pais) VALUES
@@ -51,6 +55,10 @@ CREATE TABLE Hoteles(
     Telefono VARCHAR(250)
 );
 
+--La tabla Hoteles:
+--HotelID tiene un INT tipo de dato de numeros, AUTO_INCREMENT que hara que los numeros vayan
+--aumentando despues del numero anterior, que sea una llave primaria y que no sea vacia.
+--Nombre,Direccion,Ciudad y Telefono son tipo VARCHAR que nos permite colocar letras,numeros y simbolos.
 INSERT INTO Hoteles(Nombre,Direccion,Ciudad,Telefono) VALUES
 ("Hotel Canarias","20mts oeste de parque de la paz","San jose","+506-3159-7129"),
 ("Hotel Escalante","Ubicado en el centro comercial multiflores","Heredia","+506-4255-8528"),
@@ -67,6 +75,14 @@ CREATE TABLE Transaccion (
     Metodo_Pago VARCHAR(50) NOT NULL,
     Coste INT NOT NULL
 );
+
+--La tabla Transaccion:
+--Numero_transaccion tiene un INT tipo de dato de numeros, AUTO_INCREMENT que hara que los numeros vayan
+--aumentando despues del numero anterior, que sea una llave primaria y que no sea vacia.
+--Fecha Es del tipo date que nos permitira a la columna extraer una fecha.
+--Metodo_Pago es de tipo VARCHAR que nos permite colocar letras,numeros y simbolos.
+--Coste tiene un INT tipo de dato de numeros.
+
 -- Insertar datos en la tabla Reservas
 INSERT INTO Transaccion (Numero_transaccion, Fecha, Metodo_Pago, Coste)
 VALUES 
@@ -93,6 +109,15 @@ CREATE TABLE Reservas (
     FOREIGN KEY (ID_Habitacion) REFERENCES Habitaciones(ID_Habitacion)
 );
 
+--La tabla Reservas:
+--Reserva_id tiene un INT tipo de dato de numeros, AUTO_INCREMENT que hara que los numeros vayan
+--aumentando despues del numero anterior, que sea una llave primaria y que no sea vacia.
+--Llegada y salida son tipo date que nos permitira a la columna extraer una fecha.
+--Numero_huespedes es INT tipo de dato de numeros.
+--Estado Es de tipo booleano que recibira un true(1) o un false(0) y que al agregar un dato por defecto sea false(0).
+--Numero_transaccion,UsuarioID Y ID_Habitacion serian llaves foraneas que corresponden a las llaves 
+--primarias de las respectivas referencias las cuales contienen el nombre de la tabla.
+
 -- Insertar datos en la tabla Reservas
 INSERT INTO Reservas (Llegada, Salida, Numero_huespedes,UsuarioID,ID_Habitacion)
 VALUES 
@@ -112,6 +137,14 @@ CREATE TABLE Habitaciones (
     Disponibilidad BOOLEAN NOT NULL
 );
 
+--La tabla Habitaciones:
+--ID_Habitacion tiene un INT tipo de dato de numeros, AUTO_INCREMENT que hara que los numeros vayan
+--aumentando despues del numero anterior, que sea una llave primaria y que no sea vacia.
+--Precio son tipo DECIMAL que recibe (10,2) que el 10 serian la cantidad de digitos y el 2 la cantidad de digitos
+--despues de la coma.
+--Capacidad es INT tipo de dato de numeros.
+--Disponibilidad Es de tipo booleano que recibira un true(1) o un false(0) y que al agregar un dato por defecto sea false(0).
+
 -- Insertar datos en la tabla Habitaciones
 INSERT INTO Habitaciones (Precio, Capacidad, Disponibilidad)
 VALUES 
@@ -124,10 +157,12 @@ SELECT * FROM Habitaciones;
 ---------------------------------------------------------------------------------------------------------------
 
 --4)Stored Procedures:
-
 ----------------
 
 --Solicitar una reserva
+
+--Este CreateProcedure nos permitira pasarle datos con sus respectivos datos y comience insertando los datos
+--que pasaremos por medio del call para agregar una reserva nueva. 
 
 DELIMITER //
 CREATE PROCEDURE SolicitarReserva(
@@ -143,11 +178,16 @@ BEGIN
 END //
 DELIMITER;
 
-CALL SolicitarReserva(1,3,6,"2024-08-27","2024-09-10")
+CALL SolicitarReserva(2,3,6,"2024-07-28","2024-09-10")
 
 SELECT * FROM reservas
 
+
+
 --Cancelar una Reserva
+
+--Este CreateProcedure llamado CancelarReserva nos permitira pasarle datos con sus respectivos datos
+--En begin se hara un DELETE de Reservas en el cual se comparen y coincidan el id de habitacion y usuario
 ------------
 
 DELIMITER //
@@ -167,6 +207,13 @@ SELECT * FROM reservas;
 -----------------------------------------------------------------------------------------------------------
 
 --5)Vistas
+
+--La vista llamada Nuevas_reservas Crea una vista que muestra un reporte de las reservas realizadas en el día actual.
+
+--La View Nuevas_reservas tiene como alias un select que tomara las columnas Llegada,Salida
+--Numero_huespedes y Numero_transaccion de Reservas donde Date que tomara la columna Llegada y que se 
+--compara con la fecha de el dia de hoy
+----------------
 CREATE View Nuevas_reservas AS
 SELECT Llegada, Salida, Numero_huespedes, Numero_transaccion FROM Reservas
 WHERE DATE(Llegada) = CURRENT_DATE;   
@@ -176,6 +223,10 @@ SELECT * FROM nuevas_reservas;
 
 --6)Trigger:
 
+--Este trigger tiene como funcion que antes de agregarse una nueva reserva cambiar el estado que estaba en Default
+--como False(0) con new lo pasaremos a true(1)
+
+----------------
 DELIMITER //
 CREATE TRIGGER actualizar_reserva
 BEFORE INSERT ON Reservas
@@ -189,6 +240,8 @@ DROP Trigger actualizar_reserva;
 -------------------------------------------------------------------------------------------------------
 
 --7)Indices
+
+--Estos indices nos permitiran optimizar la busqueda de Los Nombres,Direcciones y Telefonos de los Hoteles.
 CREATE INDEX Nombres on Hoteles(Nombre);
 ALTER Table Hoteles ADD INDEX Hoteles(Direccion);
 CREATE INDEX Telefonos on Hoteles(Telefono);
@@ -199,68 +252,102 @@ SHOW INDEX FROM hoteles;
 --8)Consultas SQL (Queries):
 ----------------
 
-SELECT  Nombre,COUNT(`Reservas`.Reserva_id) AS cant_Reservas
-FROM Hoteles INNER JOIN Habitaciones ON `Hoteles`.HotelID = `Habitaciones`.ID_Habitacion
-INNER JOIN Reservas ON `Habitaciones`.ID_Habitacion = `Reservas`.ID_Habitacion 
-WHERE Disponibilidad = 0 GROUP BY HotelID;
+--A)Consulta para obtener los hoteles con mayor número de reservas.
 
-SELECT * FROM reservas;
---2
-SELECT  Nombre,COUNT(`Habitaciones`.disponibilidad) AS cant_habitaciones
+--En esta consulta se selecciona La columna del nombre y con el count contaremos las Ids de Reservas con un 
+--alias llamado Cant_Reservas de Hoteles el cual usaremos un Inner Join que nos permite unir las columnas con 
+--coincidencias entre ellas de habitaciones y Reservas las cuales se agruparan por la HotelID.
+-------------------------------
+SELECT Nombre,COUNT(`Reservas`.Reserva_id) AS cant_Reservas
 FROM Hoteles INNER JOIN Habitaciones ON `Hoteles`.HotelID = `Habitaciones`.ID_Habitacion
 INNER JOIN Reservas ON `Habitaciones`.ID_Habitacion = `Reservas`.ID_Habitacion 
-WHERE Disponibilidad = TRUE AND Reservas.Salida < "2024-12-31" GROUP BY HotelID;
+GROUP BY HotelID;
+SELECT * FROM reservas;
+
+----------------------------------------------------------------
+
+--B)Consulta para contar cuántas habitaciones disponibles hay en un hotel específico en una fecha dada.
+
+--En esta consulta se seleccionan las columnas Nombre y un count que contiene las disponibilidades de las habitaciones
+--con un alias Cant_habitaciones de Hoteles, con Inner Join de Habitaciones hacemos que se junten al buscar las coicidencias de HotelID
+--y ID_Habitacion, con el Inner Join de Reservas en la ID_Habitacion de Habitaciones y la de Reservas
+--donde la disponibilidad sea igual a True(1) y Reservas.Salida sea mayor que la fecha especifica y se agrupe
+--por el HotelID
+SELECT Nombre,COUNT(`Habitaciones`.disponibilidad) AS cant_habitaciones
+FROM Hoteles INNER JOIN Habitaciones ON `Hoteles`.HotelID = `Habitaciones`.ID_Habitacion
+INNER JOIN Reservas ON `Habitaciones`.ID_Habitacion = `Reservas`.ID_Habitacion 
+WHERE Disponibilidad = TRUE AND Reservas.Salida > "2024-08-31" GROUP BY HotelID;
+
+----------------------------------------------------------------
+
 --C)Consulta para buscar hoteles por nombre.
 SELECT Nombre FROM hoteles ;
 
 --D)Consulta para buscar hoteles cuya ubicación comienza con un texto específico.
 SELECT * FROM hoteles WHERE `Ciudad` LIKE "A%";
 
+----------------------------------------------------------------
+
 --E)Consulta para buscar hoteles cuya ubicación termina con un texto específico.
 SELECT * FROM hoteles WHERE `Ciudad` LIKE "%E";
 
---querie para hotel sin reservas desde hace un mes
-SELECT Nombre, HotelID
-FROM hoteles 
-RIGHT JOIN reservas ON HotelID = ID_Habitacion
-WHERE Llegada IS NULL
-   OR Llegada < DATE_SUB(CURDATE(), INTERVAL 1 MONTH);
+----------------------------------------------------------------
 
+--Consulta para obtener las reservas de un cliente (por email) realizadas en el mes anterior.
 
---querie para hotel con mayor ocupacion en el ultimo mes
-SELECT 
-    Nombre, 
-    COUNT(Reserva_id) AS TotalReservas
-FROM 
-    Hoteles h
-JOIN 
-    Reservas  ON h.HotelID = HotelID
-WHERE 
-    Llegada BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
-GROUP BY 
-    HotelID
-ORDER BY 
-    TotalReservas DESC
-LIMIT 1;
+--En esta consulta de seleccionan todas las columnas de Reservas representado con el alias "r" y se 
+--utiliza un join entre la tabla Reservas y Usuarios los cuales se combinaran las filas donde coincidan
+--ambas tablas donde el Email de la tabla usuarios sea igual al correo deseado y que toma en cuenta
+--el mes y año los sean iguales a el mes actual con un intervalo de 1 mes
+
+SELECT r.*
+FROM Reservas r
+JOIN Usuarios u ON r.UsuarioID = u.UsuarioID
+WHERE u.Email = "Erick@correo.com"
+  AND MONTH(r.Llegada) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+  AND YEAR(r.Llegada) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH);
+
+----------------------------------------------------------------
 
 -- Calcular el número de reservas por día
+
+--En esta consulta se hace un count que indica cuantas reservas hay por fecha
 SELECT COUNT(*) AS total_reservas, DATE(Llegada) AS fecha
 FROM Reservas
 GROUP BY DATE(Llegada);
 
+
+----------------------------------------------------------------
+
 -- Calcular el promedio de reservas diarias
-SELECT AVG(total_reservas) AS promedio_reservas_diarias
+
+--
+SELECT AVG(total_reservas) AS promedio_diario
 FROM (
     SELECT COUNT(*) AS total_reservas
     FROM Reservas
     GROUP BY DATE(Llegada)
 ) AS subquery;
 
+----------------------------------------------------------------
 
-SELECT r.*
-FROM Reservas r
-JOIN Usuarios u ON r.UsuarioID = u.UsuarioID
-WHERE u.Email = "keylor@correo.com"
-  AND MONTH(r.Llegada) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
-  AND YEAR(r.Llegada) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH);
+--Consulta para identificar el hotel con la mayor ocupación en el mes anterior.
+SELECT h.Nombre, COUNT(r.ID_Habitacion) AS NumeroDeReservas
+FROM hoteles h
+JOIN reservas r ON h.HotelID = r.ID_Habitacion
+WHERE r.Llegada BETWEEN DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, '%Y-%m-01') AND (CURDATE() - INTERVAL 1 MONTH)
+GROUP BY h.Nombre
+ORDER BY NumeroDeReservas DESC;
 
+----------------------------------------------------------------
+
+--Consulta para listar los hoteles que tienen habitaciones disponibles pero no han sido reservadas en el último mes.
+SELECT Nombre,COUNT(Reserva_id) AS TotalReservas
+FROM Hoteles h
+JOIN Reservas  ON h.HotelID = HotelID
+WHERE Llegada BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
+GROUP BY HotelID
+ORDER BY TotalReservas DESC
+LIMIT 1;
+
+SELECT * FROM reservas;

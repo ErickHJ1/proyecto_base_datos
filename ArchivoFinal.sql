@@ -81,7 +81,8 @@ CREATE TABLE Transaccion (
 --aumentando despues del numero anterior, que sea una llave primaria y que no sea vacia.
 --Fecha Es del tipo date que nos permitira a la columna extraer una fecha.
 --Metodo_Pago es de tipo VARCHAR que nos permite colocar letras,numeros y simbolos.
---Coste tiene un INT tipo de dato de numeros.
+--Coste tiene un INT tipo de dato de  
+numeros.
 
 -- Insertar datos en la tabla Reservas
 INSERT INTO Transaccion (Numero_transaccion, Fecha, Metodo_Pago, Coste)
@@ -321,7 +322,10 @@ GROUP BY DATE(Llegada);
 
 -- Calcular el promedio de reservas diarias
 
---
+--Esta parte del código cuenta el número de reservas (COUNT(*)) para cada día (GROUP BY DATE(Llegada)).
+--El resultado es una lista de días con el total de reservas para cada uno.
+--La consulta principal toma los resultados de la subconsulta (que es una lista de totales diarios de reservas) y calcula el promedio de esos totales (AVG(total_reservas)).
+--El resultado final es el promedio diario de reservas, etiquetado como promedio_diario.
 SELECT AVG(total_reservas) AS promedio_diario
 FROM (
     SELECT COUNT(*) AS total_reservas
@@ -332,6 +336,16 @@ FROM (
 ----------------------------------------------------------------
 
 --Consulta para identificar el hotel con la mayor ocupación en el mes anterior.
+
+--h.Nombre: Selecciona el nombre del hotel.
+--COUNT(r.ID_Habitacion) AS NumeroDeReservas: Cuenta el número de reservas por habitación y lo etiqueta como NumeroDeReservas.
+--JOIN: Realiza una unión entre las tablas hoteles (alias h) y reservas (alias r).
+--ON h.HotelID = r.ID_Habitacion: La unión se basa en que HotelID de la tabla hoteles coincide con ID_Habitacion de la tabla reservas.
+--r.Llegada: Filtra las reservas cuya fecha de llegada está dentro del mes anterior.
+--DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, ‘%Y-%m-01’): Calcula el primer día del mes anterior.
+--(CURDATE() - INTERVAL 1 MONTH): Calcula la fecha actual menos un mes.
+--GROUP BY h.Nombre: Agrupa los resultados por el nombre del hotel.
+--ORDER BY NumeroDeReservas DESC: Ordena los resultados en orden descendente según el número de reservas.
 SELECT h.Nombre, COUNT(r.ID_Habitacion) AS NumeroDeReservas
 FROM hoteles h
 JOIN reservas r ON h.HotelID = r.ID_Habitacion
@@ -342,6 +356,13 @@ ORDER BY NumeroDeReservas DESC;
 ----------------------------------------------------------------
 
 --Consulta para listar los hoteles que tienen habitaciones disponibles pero no han sido reservadas en el último mes.
+
+--SELECT Nombre, COUNT(Reserva_id) AS TotalReservas: Selecciona el nombre del hotel y cuenta el número de reservas (Reserva_id) para cada hotel. El resultado de la cuenta se almacena en una columna llamada TotalReservas.
+--FROM Hoteles h JOIN Reservas ON h.HotelID = HotelID: Realiza una unión (JOIN) entre las tablas Hoteles y Reservas donde el HotelID de ambas tablas coincida.
+--WHERE Llegada BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE(): Filtra las reservas cuya fecha de llegada (Llegada) esté dentro del último mes, desde la fecha actual (CURDATE()) hasta un mes atrás (DATE_SUB(CURDATE(), INTERVAL 1 MONTH)).
+-- GROUP BY HotelID: Agrupa los resultados por HotelID, lo que permite contar las reservas para cada hotel individualmente.
+-- ORDER BY TotalReservas DESC: Ordena los resultados en orden descendente según el número total de reservas (TotalReservas).
+-- LIMIT 1: Limita el resultado a solo una fila, es decir, el hotel con el mayor número de reservas en el último mes.
 SELECT Nombre,COUNT(Reserva_id) AS TotalReservas
 FROM Hoteles h
 JOIN Reservas  ON h.HotelID = HotelID
